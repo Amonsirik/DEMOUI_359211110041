@@ -11,7 +11,11 @@ public class loginModel {
     Connection connection;
 
     public loginModel() {
-        this.connection = dbConnection.getConnection();
+        try {
+            this.connection = dbConnection.getConnection();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
         if (this.connection == null) {
             System.exit(1);
         }
@@ -28,8 +32,8 @@ public class loginModel {
                 "password = ?";
         try {
             pr = this.connection.prepareStatement(sql);
-            pr.setString(2, user);
-            pr.setString(3, pass);
+            pr.setString(1, user);
+            pr.setString(2, pass);
 
             rs = pr.executeQuery();
 
